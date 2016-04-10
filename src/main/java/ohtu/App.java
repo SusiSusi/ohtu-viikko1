@@ -1,10 +1,6 @@
 package ohtu;
 
-import ohtu.data_access.InMemoryUserDao;
-import ohtu.data_access.UserDao;
-import ohtu.io.ConsoleIO;
 import ohtu.io.IO;
-import ohtu.io.StubIO;
 import ohtu.services.AuthenticationService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -32,25 +28,36 @@ public class App {
 
             if (command.isEmpty()) {
                 break;
+            } else {
+                command(command);
             }
+        }
+    }
 
-            if (command.equals("new")) {
-                String[] usernameAndPasword = ask();
-                if (auth.createUser(usernameAndPasword[0], usernameAndPasword[1])) {
-                    io.print("new user registered");
-                } else {
-                    io.print("new user not registered");
-                }
+    private void command(String command) {
+        if (command.equals("new")) {
+            commandNew();
+        }
+        if (command.equals("login")) {
+            commandLogin();
+        }
+    }
 
-            } else if (command.equals("login")) {
-                String[] usernameAndPasword = ask();
-                if (auth.logIn(usernameAndPasword[0], usernameAndPasword[1])) {
-                    io.print("logged in");
-                } else {
-                    io.print("wrong username or password");
-                }
-            }
+    private void commandNew() {
+        String[] usernameAndPasword = ask();
+        if (auth.createUser(usernameAndPasword[0], usernameAndPasword[1])) {
+            io.print("new user registered");
+        } else {
+            io.print("new user not registered");
+        }
+    }
 
+    private void commandLogin() {
+        String[] usernameAndPasword = ask();
+        if (auth.logIn(usernameAndPasword[0], usernameAndPasword[1])) {
+            io.print("logged in");
+        } else {
+            io.print("wrong username or password");
         }
     }
 
@@ -60,23 +67,24 @@ public class App {
         //AuthenticationService auth = new AuthenticationService(dao);
         //new App(io, auth).run();
 
-      //   UserDao dao = new InMemoryUserDao();  
+        //   UserDao dao = new InMemoryUserDao();  
         //StubIO io = new StubIO("new", "eero", "sala1nen" );   
         //AuthenticationService auth = new AuthenticationService(dao);
         //new App(io, auth).run();
         // System.out.println(io.getPrints());
         ApplicationContext ctx = new FileSystemXmlApplicationContext("src/main/resources/spring-context.xml");
 
-        App application = ctx.getBean(App.class);
+        App application = ctx.getBean(App.class
+        );
         application.run();
     }
 
     // testejä debugatessa saattaa olla hyödyllistä testata ohjelman ajamista
-    // samoin kuin testi tekee, eli injektoimalla käyttäjän syötteen StubIO:n avulla
-    //
-    // UserDao dao = new InMemoryUserDao();  
-    // StubIO io = new StubIO("new", "eero", "sala1nen" );   
-    //  AuthenticationService auth = new AuthenticationService(dao);
-    // new App(io, auth).run();
-    // System.out.println(io.getPrints());
+// samoin kuin testi tekee, eli injektoimalla käyttäjän syötteen StubIO:n avulla
+//
+// UserDao dao = new InMemoryUserDao();  
+// StubIO io = new StubIO("new", "eero", "sala1nen" );   
+//  AuthenticationService auth = new AuthenticationService(dao);
+// new App(io, auth).run();
+// System.out.println(io.getPrints());
 }
