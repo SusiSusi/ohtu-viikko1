@@ -25,7 +25,6 @@ public class App {
     public void run() {
         while (true) {
             String command = io.readLine(">");
-
             if (command.isEmpty()) {
                 break;
             } else {
@@ -81,10 +80,5 @@ public class App {
 
     // testejä debugatessa saattaa olla hyödyllistä testata ohjelman ajamista
 // samoin kuin testi tekee, eli injektoimalla käyttäjän syötteen StubIO:n avulla
-//
-// UserDao dao = new InMemoryUserDao();  
-// StubIO io = new StubIO("new", "eero", "sala1nen" );   
-//  AuthenticationService auth = new AuthenticationService(dao);
-// new App(io, auth).run();
-// System.out.println(io.getPrints());
+
 }

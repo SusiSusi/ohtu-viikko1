@@ -1,8 +1,6 @@
 package ohtu.services;
 
 import ohtu.domain.User;
-import java.util.ArrayList;
-import java.util.List;
 import ohtu.data_access.UserDao;
 
 public class AuthenticationService {
@@ -15,12 +13,18 @@ public class AuthenticationService {
 
     public boolean logIn(String username, String password) {
         for (User user : userDao.listAll()) {
-            if (user.getUsername().equals(username)
-                    && user.getPassword().equals(password)) {
+            if (loginOk(user, username, password)) {
                 return true;
             }
         }
+        return false;
+    }
 
+    private boolean loginOk(User user, String username, String password) {
+        if (user.getUsername().equals(username)
+                && user.getPassword().equals(password)) {
+            return true;
+        }
         return false;
     }
 
