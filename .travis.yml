@@ -1,3 +1,9 @@
 language: java
+
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
+
+script:
+  - mvn integration-test
+  - mvn checkstyle:check -D"checkstyle.config.location=my_checks.xml"
+
